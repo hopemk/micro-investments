@@ -48,9 +48,6 @@ public class WalletTypeServiceImpl implements WalletTypeService {
     @Transactional
     public WalletType createWalletType(WalletType walletType) {
         // Set default status if not provided
-        if (walletType.getEntityStatus() == null) {
-            walletType.setEntityStatus(EntityStatus.ACTIVE);
-        }
         return walletTypeRepository.save(walletType);
     }
     
@@ -93,6 +90,6 @@ public class WalletTypeServiceImpl implements WalletTypeService {
 
     @Override
     public List<WalletType> getAllWalletTypesByOwnerId(String ownerId) {
-        return walletTypeRepository.findByOwnerIdandEntityStatusNot(ownerId, EntityStatus.DELETED);
+        return walletTypeRepository.findByOwnerIdAndEntityStatusNot(ownerId, EntityStatus.DELETED);
     }
 }

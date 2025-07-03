@@ -36,9 +36,9 @@ public class WalletTypeController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/owner-id/{status}")
+    @GetMapping("/owner-id/{ownerId}")
     public ResponseEntity<ApiResponse<List<WalletType>>> getAllWalletTypesByOwnerId(@RequestParam String ownerId) {
-        List<WalletType> walletTypes = walletTypeService.getAllWalletTypes();
+        List<WalletType> walletTypes = walletTypeService.getAllWalletTypesByOwnerId(ownerId);
 
         if (walletTypes.isEmpty()) {
             return new ResponseEntity<>(

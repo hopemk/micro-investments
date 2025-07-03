@@ -14,4 +14,5 @@ public interface WalletService {
     Wallet withdraw(String walletId, double amount);
     List<Wallet> getWalletsByOwner(String ownerId);
     Wallet transfer(String sourceWalletId, String destinationWalletId, double amount);
+    Wallet createWallet(Wallet walletDetails);
 }

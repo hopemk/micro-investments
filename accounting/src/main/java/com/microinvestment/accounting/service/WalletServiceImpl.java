@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public abstract class WalletServiceImpl implements WalletService {
+public class WalletServiceImpl implements WalletService {
 
     private final WalletRepository walletRepository;
 
@@ -68,6 +68,11 @@ public abstract class WalletServiceImpl implements WalletService {
         wallet.setBalance(wallet.getBalance() - amount);
         wallet = walletRepository.save(wallet);
         return wallet;
+    }
+
+    @Override
+    public List<Wallet> getWalletsByOwner(String ownerId) {
+        return List.of();
     }
 
     @Override

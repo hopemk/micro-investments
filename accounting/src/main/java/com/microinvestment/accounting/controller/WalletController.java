@@ -1,5 +1,6 @@
 package com.microinvestment.accounting.controller;
 
+import com.microinvestment.accounting.dto.WalletDto;
 import com.microinvestment.accounting.model.Wallet;
 import com.microinvestment.accounting.service.WalletService;
 import com.microinvestment.accounting.response.ApiResponse;
@@ -51,6 +52,20 @@ public class WalletController {
         return new ResponseEntity<>(
                 ApiResponse.success("Wallet deleted successfully", null),
                 HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/deposit")
+    public ResponseEntity<ApiResponse<Wallet>> create(@RequestBody WalletDto request) {
+        try {
+            Wallet wallet = walletService.createWallet(request.toDomain);
+            return new ResponseEntity<>(
+                    ApiResponse.success("Funds deposited successfully", wallet),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    ApiResponse.error("Failed to deposit funds: " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/{id}/deposit")

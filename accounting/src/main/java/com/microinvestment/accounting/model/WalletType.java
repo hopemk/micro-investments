@@ -1,11 +1,6 @@
 package com.microinvestment.accounting.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
@@ -107,6 +102,14 @@ public class WalletType {
     @PreUpdate
     public void preUpdate() {
         dateUpdated = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.entityStatus = EntityStatus.ACTIVE;
+        this.dateCreated = LocalDateTime.now();
     }
 
     @Override
