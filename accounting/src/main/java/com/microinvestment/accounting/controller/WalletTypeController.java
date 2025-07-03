@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/wallet-types")
 public class WalletTypeController {
@@ -37,7 +38,7 @@ public class WalletTypeController {
     }
 
     @GetMapping("/owner-id/{ownerId}")
-    public ResponseEntity<ApiResponse<List<WalletType>>> getAllWalletTypesByOwnerId(@RequestParam String ownerId) {
+    public ResponseEntity<ApiResponse<List<WalletType>>> getAllWalletTypesByOwnerId(@PathVariable(value = "ownerId") String ownerId) {
         List<WalletType> walletTypes = walletTypeService.getAllWalletTypesByOwnerId(ownerId);
 
         if (walletTypes.isEmpty()) {

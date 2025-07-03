@@ -22,6 +22,8 @@ public class Account {
     private String name;
 
     private String createdBy;
+    private String ownerId;
+    private String phoneNumber;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
     @Enumerated(value = EnumType.STRING)
@@ -195,6 +197,22 @@ public class Account {
     @PreUpdate
     public void preUpdate() {
         dateUpdated = LocalDateTime.now();
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override

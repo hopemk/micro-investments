@@ -1,7 +1,11 @@
 package com.microinvestment.accounting.service;
 
+import com.microinvestment.accounting.dto.WalletDto;
 import com.microinvestment.accounting.exception.ResourceNotFoundException;
+import com.microinvestment.accounting.model.Account;
+import com.microinvestment.accounting.model.EntityStatus;
 import com.microinvestment.accounting.model.Wallet;
+import com.microinvestment.accounting.model.WalletType;
 import com.microinvestment.accounting.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +17,24 @@ import java.util.List;
 public class WalletServiceImpl implements WalletService {
 
     private final WalletRepository walletRepository;
+    private final AccountService accountService;
+    private final WalletTypeService walletTypeService;
 
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository) {
+    public WalletServiceImpl(WalletRepository walletRepository, AccountService accountService, WalletTypeService walletTypeService) {
         this.walletRepository = walletRepository;
+        this.accountService = accountService;
+        this.walletTypeService = walletTypeService;
     }
 
     @Override
     public List<Wallet> getAllWallets() {
         return walletRepository.findAll();
+    }
+
+    @Override
+    public List<Wallet> getAllWalletsByOwnerId(String ownerId) {
+        return walletRepository.findByOwnerIdAndEntityStatusNot(ownerId, EntityStatus.DELETED);
     }
 
     @Override
@@ -90,5 +103,16 @@ public class WalletServiceImpl implements WalletService {
         walletRepository.save(sourceWallet);
 
         return sourceWallet;
+    }
+
+    @Override
+    public Wallet createWallet(WalletDto walletDto) {
+
+        Account account = accountService.getPersonById(walletDto.getAccountId());
+        WalletType walletType = walletTypeService.getWalletTypeById(walletDto.getWalletTypeId());
+
+        Wallet wallet = new Wallet(walletDto.getName(), walletDto.getInitialBalance(), account, walletType, walletDto.getAmountLimit());
+        wallet = walletRepository.save(wallet);
+        return wallet;
     }
 }

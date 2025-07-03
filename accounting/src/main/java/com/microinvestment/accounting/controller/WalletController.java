@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/wallets")
 public class WalletController {
 
@@ -25,6 +26,14 @@ public class WalletController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<Wallet>>> getAllWallets() {
         List<Wallet> wallets = walletService.getAllWallets();
+        return new ResponseEntity<>(
+                ApiResponse.success("Wallets retrieved successfully", wallets),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/owner-id/{ownerId}")
+    public ResponseEntity<ApiResponse<List<Wallet>>> getAllWalletsByOwnerId(@PathVariable String ownerId) {
+        List<Wallet> wallets = walletService.getAllWalletsByOwnerId(ownerId);
         return new ResponseEntity<>(
                 ApiResponse.success("Wallets retrieved successfully", wallets),
                 HttpStatus.OK);
@@ -54,10 +63,10 @@ public class WalletController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/deposit")
+    @PostMapping("")
     public ResponseEntity<ApiResponse<Wallet>> create(@RequestBody WalletDto request) {
         try {
-            Wallet wallet = walletService.createWallet(request.toDomain);
+            Wallet wallet = walletService.createWallet(request);
             return new ResponseEntity<>(
                     ApiResponse.success("Funds deposited successfully", wallet),
                     HttpStatus.OK);

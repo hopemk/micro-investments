@@ -1,12 +1,12 @@
 package com.microinvestment.accounting.service;
 
+import com.microinvestment.accounting.dto.WalletDto;
 import com.microinvestment.accounting.model.Wallet;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 
 public interface WalletService {
     List<Wallet> getAllWallets();
+    List<Wallet> getAllWalletsByOwnerId (String ownerId);
     Wallet getWalletById(String id);
     Wallet updateWallet(String id, Wallet walletDetails);
     void deleteWallet(String id);
@@ -14,5 +14,5 @@ public interface WalletService {
     Wallet withdraw(String walletId, double amount);
     List<Wallet> getWalletsByOwner(String ownerId);
     Wallet transfer(String sourceWalletId, String destinationWalletId, double amount);
-    Wallet createWallet(Wallet walletDetails);
+    Wallet createWallet(WalletDto walletDto);
 }

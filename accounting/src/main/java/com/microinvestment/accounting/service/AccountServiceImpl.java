@@ -2,6 +2,7 @@ package com.microinvestment.accounting.service;
 
 import com.microinvestment.accounting.exception.ResourceNotFoundException;
 import com.microinvestment.accounting.model.Account;
+import com.microinvestment.accounting.model.EntityStatus;
 import com.microinvestment.accounting.model.Wallet;
 import com.microinvestment.accounting.repository.AccountRepository;
 import com.microinvestment.accounting.repository.WalletRepository;
@@ -26,7 +27,12 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> getAllPersons() {
         return accountRepository.findAll();
     }
-    
+
+    @Override
+    public List<Account> getAllAccountsByOwnerId(String ownerId) {
+        return accountRepository.findByOwnerIdAndEntityStatusNot(ownerId, EntityStatus.DELETED);
+    }
+
     @Override
     public Account getPersonById(String id) {
         return accountRepository.findById(id)

@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/persons")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping("/api/accounts")
 public class AccountController {
 
     private final AccountService personService;
@@ -35,6 +36,22 @@ public class AccountController {
                 ApiResponse.success("Accounts retrieved successfully", accounts),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/owner-id/{ownerId}")
+    public ResponseEntity<ApiResponse<List<Account>>> getAllAccountsByOwnerId(@PathVariable String ownerId) {
+        List<Account> accounts = personService.getAllAccountsByOwnerId(ownerId);
+
+        if (accounts.isEmpty()) {
+            return new ResponseEntity<>(
+                    ApiResponse.success("Account(s) do not exist", null),
+                    HttpStatus.OK);
+        }
+        return new ResponseEntity<>(
+                ApiResponse.success("Accounts retrieved successfully", accounts),
+                HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Account>> getPersonById(@PathVariable String id) {

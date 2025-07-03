@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface AccountService {
     List<Account> getAllPersons();
+    List<Account> getAllAccountsByOwnerId(String ownerId);
     Account getPersonById(String id);
     Account createPerson(Account account);
     Account updatePerson(String id, Account accountDetails);

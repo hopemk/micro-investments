@@ -49,6 +49,18 @@ public class Wallet {
         this.dateCreated = LocalDateTime.now();
     }
 
+    public Wallet(String name, double initialBalance, Account account, WalletType walletType, String amountLimit) {
+
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.balance = initialBalance >= 0 ? initialBalance : 0;
+        this.account = account;
+        this.dateCreated = LocalDateTime.now();
+        this.walletType = walletType;
+        this.amountLimit = amountLimit;
+        this.entityStatus = EntityStatus.ACTIVE;
+    }
+
     public String getId() {
         return id;
     }

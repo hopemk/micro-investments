@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class WalletDto {
 
     private String name;
-    private double balance;
+    private double initialBalance;
     private String walletTypeId;
     private String accountId;
     private String createdBy;
@@ -27,14 +27,6 @@ public class WalletDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
     }
 
     public String getWalletTypeId() {
@@ -85,11 +77,20 @@ public class WalletDto {
         this.amountLimit = amountLimit;
     }
 
+
+    public double getInitialBalance() {
+        return initialBalance;
+    }
+
+    public void setInitialBalance(double initialBalance) {
+        this.initialBalance = initialBalance;
+    }
+
     @Override
     public String toString() {
         return "WalletDto{" +
                 "name='" + name + '\'' +
-                ", balance=" + balance +
+               // ", balance=" + balance +
                 ", walletTypeId='" + walletTypeId + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", createdBy='" + createdBy + '\'' +
