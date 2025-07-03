@@ -58,7 +58,6 @@ public class WalletTypeServiceImpl implements WalletTypeService {
     @Transactional
     public WalletType updateWalletType(String id, WalletType walletTypeDetails) {
         WalletType walletType = getWalletTypeById(id);
-        walletType.setName(walletTypeDetails.getName());
         
         // Only update status if provided
         if (walletTypeDetails.getEntityStatus() != null) {
@@ -90,5 +89,10 @@ public class WalletTypeServiceImpl implements WalletTypeService {
         WalletType walletType = getWalletTypeById(id);
         walletType.setEntityStatus(EntityStatus.INACTIVE);
         return walletTypeRepository.save(walletType);
+    }
+
+    @Override
+    public List<WalletType> getAllWalletTypesByOwnerId(String ownerId) {
+        return walletTypeRepository.findByOwnerIdandEntityStatusNot(ownerId, EntityStatus.DELETED);
     }
 }

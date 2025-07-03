@@ -2,6 +2,8 @@ package com.microinvestment.accounting.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -27,6 +29,14 @@ public class Wallet {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    private String createdBy;
+    private String ownerId;
+    private LocalDateTime dateCreated;
+    private LocalDateTime dateUpdated;
+    @Enumerated(value = EnumType.STRING)
+    private EntityStatus entityStatus;
+    private String amountLimit;
+
     public Wallet() {
         this.id = UUID.randomUUID().toString();
     }
@@ -36,6 +46,7 @@ public class Wallet {
         this.name = name;
         this.balance = initialBalance >= 0 ? initialBalance : 0;
         this.account = account;
+        this.dateCreated = LocalDateTime.now();
     }
 
     public String getId() {
@@ -76,6 +87,59 @@ public class Wallet {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public LocalDateTime getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(LocalDateTime dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public EntityStatus getEntityStatus() {
+        return entityStatus;
+    }
+
+    public void setEntityStatus(EntityStatus entityStatus) {
+        this.entityStatus = entityStatus;
+    }
+
+    public String getAmountLimit() {
+        return amountLimit;
+    }
+
+    public void setAmountLimit(String limit) {
+        this.amountLimit = limit;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        dateUpdated = LocalDateTime.now();
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.microinvestment.accounting.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,15 +21,23 @@ public class Account {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Wallet> wallets;
+    private String createdBy;
+    private LocalDateTime dateCreated;
+    private LocalDateTime dateUpdated;
+    @Enumerated(value = EnumType.STRING)
+    private EntityStatus entityStatus;
+
+//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Wallet> wallets;
 
     /**
      * Default constructor required by JPA.
      */
     public Account() {
         this.id = UUID.randomUUID().toString();
-        this.wallets = new ArrayList<>();
+        //this.wallets = new ArrayList<>();
+        this.dateCreated = LocalDateTime.now();
+
     }
 
     /**
@@ -38,7 +48,7 @@ public class Account {
     public Account(String name) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.wallets = new ArrayList<>();
+        //this.wallets = new ArrayList<>();
     }
 
     /**
@@ -73,9 +83,9 @@ public class Account {
      *
      * @return A list of all wallets
      */
-    public List<Wallet> getWallets() {
-        return Collections.unmodifiableList(wallets);
-    }
+//   // public List<Wallet> getWallets() {
+//        return Collections.unmodifiableList(wallets);
+//    }
 
     /**
      * Adds a new wallet to this person.
@@ -83,9 +93,9 @@ public class Account {
      * @param wallet The wallet to add
      * @return true if the wallet was added successfully
      */
-    public boolean addWallet(Wallet wallet) {
-        return wallets.add(wallet);
-    }
+//    //public boolean addWallet(Wallet wallet) {
+//        return wallets.add(wallet);
+//    }
 
     /**
      * Removes a wallet from this person.
@@ -93,9 +103,9 @@ public class Account {
      * @param wallet The wallet to remove
      * @return true if the wallet was removed successfully
      */
-    public boolean removeWallet(Wallet wallet) {
-        return wallets.remove(wallet);
-    }
+//   // public boolean removeWallet(Wallet wallet) {
+//        return wallets.remove(wallet);
+//    }
 
     /**
      * Creates a new wallet with the given name and initial balance and adds it to this person.
@@ -111,12 +121,12 @@ public class Account {
      * @param walletId The ID of the wallet to find
      * @return The wallet if found, null otherwise
      */
-    public Wallet findWalletById(String walletId) {
-        return wallets.stream()
-                .filter(wallet -> wallet.getId().equals(walletId))
-                .findFirst()
-                .orElse(null);
-    }
+//    public Wallet findWalletById(String walletId) {
+//        return wallets.stream()
+//                .filter(wallet -> wallet.getId().equals(walletId))
+//                .findFirst()
+//                .orElse(null);
+//    }
 
     /**
      * Finds a wallet by its name.
@@ -124,21 +134,78 @@ public class Account {
      * @param walletName The name of the wallet to find
      * @return The wallet if found, null otherwise
      */
-    public Wallet findWalletByName(String walletName) {
-        return wallets.stream()
-                .filter(wallet -> wallet.getName().equals(walletName))
-                .findFirst()
-                .orElse(null);
-    }
+//    public Wallet findWalletByName(String walletName) {
+//        return wallets.stream()
+//                .filter(wallet -> wallet.getName().equals(walletName))
+//                .findFirst()
+//                .orElse(null);
+//    }
 
     /**
      * Gets the total balance across all wallets owned by this person.
      *
      * @return The total balance
      */
-    public double getTotalBalance() {
-        return wallets.stream()
-                .mapToDouble(Wallet::getBalance)
-                .sum();
+//    public double getTotalBalance() {
+//        return wallets.stream()
+//                .mapToDouble(Wallet::getBalance)
+//                .sum();
+//    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public LocalDateTime getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(LocalDateTime dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+//    public void setWallets(List<Wallet> wallets) {
+//        this.wallets = wallets;
+//    }
+
+    public EntityStatus getEntityStatus() {
+        return entityStatus;
+    }
+
+    public void setEntityStatus(EntityStatus entityStatus) {
+        this.entityStatus = entityStatus;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        dateUpdated = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", dateUpdated=" + dateUpdated +
+                //", wallets=" + wallets +
+                '}';
     }
 }

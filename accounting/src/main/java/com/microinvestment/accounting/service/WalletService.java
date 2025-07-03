@@ -12,5 +12,6 @@ public interface WalletService {
     void deleteWallet(String id);
     Wallet deposit(String walletId, double amount);
     Wallet withdraw(String walletId, double amount);
+    List<Wallet> getWalletsByOwner(String ownerId);
     Wallet transfer(String sourceWalletId, String destinationWalletId, double amount);
 }

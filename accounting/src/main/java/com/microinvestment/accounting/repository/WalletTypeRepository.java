@@ -10,4 +10,5 @@ import java.util.List;
 public interface WalletTypeRepository extends JpaRepository<WalletType, String> {
     List<WalletType> findByEntityStatus(EntityStatus entityStatus);
     WalletType findByName(String name);
+    List<WalletType> findByOwnerIdandEntityStatusNot(String ownerId, EntityStatus entityStatus);
 }

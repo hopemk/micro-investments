@@ -25,6 +25,26 @@ public class WalletTypeController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<WalletType>>> getAllWalletTypes() {
         List<WalletType> walletTypes = walletTypeService.getAllWalletTypes();
+
+        if (walletTypes.isEmpty()) {
+            return new ResponseEntity<>(
+                    ApiResponse.error("Wallet type(s) do not exist", null),
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(
+                ApiResponse.success("Wallet types retrieved successfully", walletTypes),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/owner-id/{status}")
+    public ResponseEntity<ApiResponse<List<WalletType>>> getAllWalletTypesByOwnerId(@RequestParam String ownerId) {
+        List<WalletType> walletTypes = walletTypeService.getAllWalletTypes();
+
+        if (walletTypes.isEmpty()) {
+            return new ResponseEntity<>(
+                    ApiResponse.error("Wallet type(s) do not exist", null),
+                    HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(
                 ApiResponse.success("Wallet types retrieved successfully", walletTypes),
                 HttpStatus.OK);
@@ -33,6 +53,12 @@ public class WalletTypeController {
     @GetMapping("/status/{status}")
     public ResponseEntity<ApiResponse<List<WalletType>>> getWalletTypesByStatus(@PathVariable EntityStatus status) {
         List<WalletType> walletTypes = walletTypeService.getWalletTypesByStatus(status);
+
+        if (walletTypes.isEmpty()) {
+            return new ResponseEntity<>(
+                    ApiResponse.error("Wallet type(s) do not exist", null),
+                    HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(
                 ApiResponse.success("Wallet types with status " + status + " retrieved successfully", walletTypes),
                 HttpStatus.OK);
@@ -49,6 +75,12 @@ public class WalletTypeController {
     @GetMapping("/name/{name}")
     public ResponseEntity<ApiResponse<WalletType>> getWalletTypeByName(@PathVariable String name) {
         WalletType walletType = walletTypeService.getWalletTypeByName(name);
+
+        if (walletType == null) {
+            return new ResponseEntity<>(
+                    ApiResponse.error("Wallet type do not exist", null),
+                    HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(
                 ApiResponse.success("Wallet type retrieved successfully", walletType),
                 HttpStatus.OK);
@@ -57,6 +89,12 @@ public class WalletTypeController {
     @PostMapping
     public ResponseEntity<ApiResponse<WalletType>> createWalletType(@Valid @RequestBody WalletType walletType) {
         WalletType createdWalletType = walletTypeService.createWalletType(walletType);
+
+        if (walletType == null) {
+            return new ResponseEntity<>(
+                    ApiResponse.error("Wallet type do not exist", null),
+                    HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(
                 ApiResponse.success("Wallet type created successfully", createdWalletType),
                 HttpStatus.CREATED);

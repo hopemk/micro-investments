@@ -14,4 +14,5 @@ public interface WalletTypeService {
     void deleteWalletType(String id);
     WalletType activateWalletType(String id);
     WalletType deactivateWalletType(String id);
+    List<WalletType> getAllWalletTypesByOwnerId(String ownerId);
 }

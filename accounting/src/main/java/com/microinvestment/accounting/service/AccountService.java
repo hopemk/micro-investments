@@ -11,6 +11,6 @@ public interface AccountService {
     Account updatePerson(String id, Account accountDetails);
     void deletePerson(String id);
     Wallet createWalletForPerson(String personId, String walletName, double initialBalance);
-    List<Wallet> getPersonWallets(String personId);
-    double getPersonTotalBalance(String personId);
+//    List<Wallet> getPersonWallets(String personId);
+//    double getPersonTotalBalance(String personId);
 }

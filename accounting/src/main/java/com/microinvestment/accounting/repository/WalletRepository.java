@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, String> {
-    List<Wallet> findByPersonId(String personId);
-    Wallet findByPersonIdAndName(String personId, String name);
+    List<Wallet> findByAccountId(String personId);
+    Wallet findByAccountIdAndName(String personId, String name);
 }

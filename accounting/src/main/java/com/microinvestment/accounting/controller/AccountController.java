@@ -25,6 +25,12 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<Account>>> getAllPersons() {
         List<Account> accounts = personService.getAllPersons();
+
+        if (accounts.isEmpty()) {
+            return new ResponseEntity<>(
+                    ApiResponse.success("Account(s) do not exist", null),
+                    HttpStatus.OK);
+        }
         return new ResponseEntity<>(
                 ApiResponse.success("Accounts retrieved successfully", accounts),
                 HttpStatus.OK);
@@ -62,13 +68,13 @@ public class AccountController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/wallets")
-    public ResponseEntity<ApiResponse<List<Wallet>>> getPersonWallets(@PathVariable String id) {
-        List<Wallet> wallets = personService.getPersonWallets(id);
-        return new ResponseEntity<>(
-                ApiResponse.success("Wallets retrieved successfully", wallets),
-                HttpStatus.OK);
-    }
+//    @GetMapping("/{id}/wallets")
+//    public ResponseEntity<ApiResponse<List<Wallet>>> getPersonWallets(@PathVariable String id) {
+//        List<Wallet> wallets = personService.getPersonWallets(id);
+//        return new ResponseEntity<>(
+//                ApiResponse.success("Wallets retrieved successfully", wallets),
+//                HttpStatus.OK);
+//    }
 
     @PostMapping("/{id}/wallets")
     public ResponseEntity<ApiResponse<Wallet>> createWallet(
@@ -81,11 +87,11 @@ public class AccountController {
                 HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}/total-balance")
-    public ResponseEntity<ApiResponse<Double>> getTotalBalance(@PathVariable String id) {
-        Double totalBalance = personService.getPersonTotalBalance(id);
-        return new ResponseEntity<>(
-                ApiResponse.success("Total balance retrieved successfully", totalBalance),
-                HttpStatus.OK);
-    }
+//    @GetMapping("/{id}/total-balance")
+//    public ResponseEntity<ApiResponse<Double>> getTotalBalance(@PathVariable String id) {
+//        Double totalBalance = personService.getPersonTotalBalance(id);
+//        return new ResponseEntity<>(
+//                ApiResponse.success("Total balance retrieved successfully", totalBalance),
+//                HttpStatus.OK);
+//    }
 }
